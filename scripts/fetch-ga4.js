@@ -137,6 +137,14 @@ async function main() {
 
       fs.mkdirSync(outDir, { recursive: true });
       fs.writeFileSync(outFile, JSON.stringify(output, null, 2));
+
+      // Update summary in clients.json so the master dashboard card shows live metrics
+      const clientsFile = path.join(__dirname, '..', 'data', 'clients.json');
+      const clientsData = JSON.parse(fs.readFileSync(clientsFile));
+      const idx = clientsData.clients.findIndex(c => c.slug === client.slug);
+      if (idx !== -1) clientsData.clients[idx].summary = output.summary;
+      fs.writeFileSync(clientsFile, JSON.stringify(clientsData, null, 2));
+
       console.log(`  ✓ Wrote data/${client.slug}/latest.json`);
 
     } catch (err) {

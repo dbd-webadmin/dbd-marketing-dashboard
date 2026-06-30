@@ -56,10 +56,28 @@ async function main() {
     clients,
   };
 
+  // Preserve existing summaries — don't overwrite metrics with null when sheet syncs
   const outPath = path.join(__dirname, '..', 'data', 'clients.json');
+  if (fs.existsSync(outPath)) {
+    const existing = JSON.parse(fs.readFileSync(outPath));
+    const summaryMap = {};
+    existing.clients.forEach(c => { if (c.summary) summaryMap[c.slug] = c.summary; });
+    clients.forEach(c => { if (summaryMap[c.slug]) c.summary = summaryMap[c.slug]; });
+  }
+
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(`Wrote ${clients.length} clients to data/clients.json`);
+
+  // Generate an HTML page for each active client from the template
+  const templatePath = path.join(__dirname, '..', 'clients', 'template.html');
+  const template = fs.readFileSync(templatePath, 'utf8');
+  const clientsDir = path.join(__dirname, '..', 'clients');
+  clients.filter(c => c.active).forEach(c => {
+    const dest = path.join(clientsDir, `${c.slug}.html`);
+    fs.writeFileSync(dest, template);
+    console.log(`  Generated clients/${c.slug}.html`);
+  });
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
