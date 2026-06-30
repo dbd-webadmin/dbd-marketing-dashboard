@@ -1,0 +1,19 @@
+{
+  "updated": "2026-06-30T12:00:00.000Z",
+  "clients": [
+    {
+      "name": "JEDCO",
+      "slug": "jedco",
+      "active": true,
+      "ga4PropertyId": null,
+      "googleAdsId": null,
+      "metaAdAccountId": null,
+      "mailchimpListId": null,
+      "hubspotPortalId": null,
+      "monthlyBudget": 0,
+      "clientType": "Economic Development",
+      "notes": "Add account IDs to Google Sheet to enable data sync.",
+      "summary": null
+    }
+  ]
+}

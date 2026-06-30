@@ -1,0 +1,11 @@
+{
+  "name": "dbd-marketing-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "sync-clients": "node scripts/sync-clients.js"
+  },
+  "dependencies": {
+    "googleapis": "^140.0.0"
+  }
+}

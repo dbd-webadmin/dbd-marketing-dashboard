@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DBD Marketing Dashboard</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="header-logo">◈</span>
+        <span class="header-title">DBD Marketing</span>
+      </div>
+      <div class="header-meta">
+        <span id="last-updated" class="last-updated">Loading...</span>
+        <span class="header-badge internal">Internal</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="page-top">
+      <div class="page-heading">
+        <h1>Client Overview</h1>
+        <p class="page-sub">All clients · Month to date</p>
+      </div>
+      <div class="filter-bar">
+        <input type="text" id="search" class="search-input" placeholder="Search clients…" />
+        <div class="filter-chips" id="filter-chips">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="active">Active</button>
+          <button class="chip" data-filter="inactive">Inactive</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-bar" id="summary-bar">
+      <div class="summary-stat">
+        <span class="summary-label">Total Clients</span>
+        <span class="summary-value" id="stat-clients">—</span>
+      </div>
+      <div class="summary-stat">
+        <span class="summary-label">Total Spend MTD</span>
+        <span class="summary-value" id="stat-spend">—</span>
+      </div>
+      <div class="summary-stat">
+        <span class="summary-label">Total Sessions MTD</span>
+        <span class="summary-value" id="stat-sessions">—</span>
+      </div>
+      <div class="summary-stat">
+        <span class="summary-label">Avg Budget Utilization</span>
+        <span class="summary-value" id="stat-budget">—</span>
+      </div>
+    </div>
+
+    <div class="client-grid" id="client-grid">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading clients…</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const REPO = 'dbd-webadmin/dbd-marketing-dashboard';
+    const BASE = `https://raw.githubusercontent.com/${REPO}/main/data`;
+
+    let allClients = [];
+    let activeFilter = 'all';
+
+    async function loadClients() {
+      try {
+        const res = await fetch(`${BASE}/clients.json?t=${Date.now()}`);
+        if (!res.ok) throw new Error('No client data yet');
+        const data = await res.json();
+        allClients = data.clients || [];
+        document.getElementById('last-updated').textContent = `Updated ${formatDate(data.updated)}`;
+        renderSummary();
+        renderGrid(allClients);
+      } catch (e) {
+        document.getElementById('client-grid').innerHTML = `
+          <div class="empty-state">
+            <p>No client data found. Add clients to the Google Sheet and run the sync workflow.</p>
+          </div>`;
+        document.getElementById('last-updated').textContent = 'No data';
+      }
+    }
+
+    function renderSummary() {
+      const active = allClients.filter(c => c.active);
+      const totalSpend = active.reduce((s, c) => s + (c.summary?.totalSpend || 0), 0);
+      const totalSessions = active.reduce((s, c) => s + (c.summary?.sessions || 0), 0);
+      const budgetPcts = active.filter(c => c.monthlyBudget > 0).map(c =>
+        ((c.summary?.totalSpend || 0) / c.monthlyBudget) * 100
+      );
+      const avgBudget = budgetPcts.length ? budgetPcts.reduce((a, b) => a + b, 0) / budgetPcts.length : null;
+
+      document.getElementById('stat-clients').textContent = active.length;
+      document.getElementById('stat-spend').textContent = totalSpend ? formatCurrency(totalSpend) : '—';
+      document.getElementById('stat-sessions').textContent = totalSessions ? formatNumber(totalSessions) : '—';
+      document.getElementById('stat-budget').textContent = avgBudget !== null ? `${Math.round(avgBudget)}%` : '—';
+    }
+
+    function renderGrid(clients) {
+      const grid = document.getElementById('client-grid');
+      const filtered = clients.filter(c => {
+        const matchFilter = activeFilter === 'all' || (activeFilter === 'active' && c.active) || (activeFilter === 'inactive' && !c.active);
+        const search = document.getElementById('search').value.toLowerCase();
+        const matchSearch = !search || c.name.toLowerCase().includes(search);
+        return matchFilter && matchSearch;
+      });
+
+      if (!filtered.length) {
+        grid.innerHTML = '<div class="empty-state"><p>No clients match your filter.</p></div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(c => clientCard(c)).join('');
+    }
+
+    function clientCard(c) {
+      const s = c.summary || {};
+      const budgetPct = c.monthlyBudget > 0 ? Math.min(100, Math.round(((s.totalSpend || 0) / c.monthlyBudget) * 100)) : null;
+      const budgetColor = budgetPct === null ? '' : budgetPct >= 90 ? 'danger' : budgetPct >= 75 ? 'warning' : 'good';
+      const platforms = [
+        c.ga4PropertyId ? 'GA4' : null,
+        c.googleAdsId ? 'Google Ads' : null,
+        c.metaAdAccountId ? 'Meta' : null,
+        c.mailchimpListId ? 'Email' : null,
+        c.hubspotPortalId ? 'HubSpot' : null,
+      ].filter(Boolean);
+
+      return `
+        <a class="client-card ${c.active ? '' : 'inactive'}" href="clients/${c.slug}.html">
+          <div class="card-header">
+            <div class="card-title-row">
+              <h2 class="card-name">${c.name}</h2>
+              <span class="status-dot ${c.active ? 'active' : 'inactive'}" title="${c.active ? 'Active' : 'Inactive'}"></span>
+            </div>
+            <div class="platform-tags">
+              ${platforms.map(p => `<span class="platform-tag">${p}</span>`).join('')}
+            </div>
+          </div>
+          <div class="card-metrics">
+            <div class="metric">
+              <span class="metric-label">Spend MTD</span>
+              <span class="metric-value">${s.totalSpend ? formatCurrency(s.totalSpend) : '—'}</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Sessions</span>
+              <span class="metric-value">${s.sessions ? formatNumber(s.sessions) : '—'}</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Conversions</span>
+              <span class="metric-value">${s.conversions ? formatNumber(s.conversions) : '—'}</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Top Channel</span>
+              <span class="metric-value">${s.topChannel || '—'}</span>
+            </div>
+          </div>
+          ${budgetPct !== null ? `
+          <div class="budget-bar-wrap">
+            <div class="budget-bar-label">
+              <span>Budget</span>
+              <span class="${budgetColor}">${budgetPct}% of ${formatCurrency(c.monthlyBudget)}</span>
+            </div>
+            <div class="budget-bar-track">
+              <div class="budget-bar-fill ${budgetColor}" style="width:${budgetPct}%"></div>
+            </div>
+          </div>` : ''}
+          <div class="card-footer">
+            <span class="card-updated">${s.lastUpdated ? `Data as of ${formatDate(s.lastUpdated)}` : 'No data yet'}</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </a>`;
+    }
+
+    function formatCurrency(n) {
+      return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+    function formatNumber(n) {
+      return Number(n).toLocaleString('en-US');
+    }
+    function formatDate(str) {
+      if (!str) return '—';
+      return new Date(str).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    }
+
+    document.querySelectorAll('.chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.filter;
+        renderGrid(allClients);
+      });
+    });
+
+    document.getElementById('search').addEventListener('input', () => renderGrid(allClients));
+
+    loadClients();
+  </script>
+</body>
+</html>
