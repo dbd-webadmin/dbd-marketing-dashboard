@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Dashboard · DBD Marketing</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <a href="../index.html" class="back-link">← All Clients</a>
+      </div>
+      <div class="header-meta">
+        <span id="last-updated" class="last-updated">Loading...</span>
+        <span class="header-badge client">Client View</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="client-hero" id="client-hero">
+      <div class="client-hero-inner">
+        <h1 id="client-name">—</h1>
+        <p id="client-period" class="page-sub">Month to date</p>
+      </div>
+      <div class="date-range">
+        <select id="date-range-select" class="range-select">
+          <option value="mtd">Month to date</option>
+          <option value="last30">Last 30 days</option>
+          <option value="last90">Last 90 days</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Top KPI Cards -->
+    <div class="kpi-grid" id="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Total Spend</span>
+        <span class="kpi-value" id="kpi-spend">—</span>
+        <span class="kpi-delta" id="kpi-spend-delta"></span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Sessions</span>
+        <span class="kpi-value" id="kpi-sessions">—</span>
+        <span class="kpi-delta" id="kpi-sessions-delta"></span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Conversions</span>
+        <span class="kpi-value" id="kpi-conversions">—</span>
+        <span class="kpi-delta" id="kpi-conversions-delta"></span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Cost Per Conversion</span>
+        <span class="kpi-value" id="kpi-cpc">—</span>
+        <span class="kpi-delta" id="kpi-cpc-delta"></span>
+      </div>
+    </div>
+
+    <!-- Budget Tracker -->
+    <div class="section" id="section-budget">
+      <div class="section-header">
+        <h2>Budget</h2>
+        <span class="section-meta" id="budget-meta"></span>
+      </div>
+      <div class="budget-tracker">
+        <div class="budget-numbers">
+          <div class="budget-item">
+            <span class="budget-label">Spent</span>
+            <span class="budget-val" id="budget-spent">—</span>
+          </div>
+          <div class="budget-item">
+            <span class="budget-label">Remaining</span>
+            <span class="budget-val" id="budget-remaining">—</span>
+          </div>
+          <div class="budget-item">
+            <span class="budget-label">Monthly Budget</span>
+            <span class="budget-val" id="budget-total">—</span>
+          </div>
+          <div class="budget-item">
+            <span class="budget-label">Projected</span>
+            <span class="budget-val" id="budget-projected">—</span>
+          </div>
+        </div>
+        <div class="budget-gauge-wrap">
+          <canvas id="budgetGauge" height="160"></canvas>
+          <div class="budget-gauge-label" id="budget-pct-label">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <div class="section chart-section">
+        <div class="section-header"><h2>Spend Over Time</h2></div>
+        <div class="chart-wrap"><canvas id="spendChart"></canvas></div>
+      </div>
+      <div class="section chart-section">
+        <div class="section-header"><h2>Website Traffic</h2></div>
+        <div class="chart-wrap"><canvas id="trafficChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="section chart-section">
+        <div class="section-header"><h2>Spend by Channel</h2></div>
+        <div class="chart-wrap chart-wrap--donut"><canvas id="channelChart"></canvas></div>
+      </div>
+      <div class="section chart-section">
+        <div class="section-header"><h2>Conversions Over Time</h2></div>
+        <div class="chart-wrap"><canvas id="conversionChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Platform Sections -->
+    <div id="section-ga4" class="section platform-section hidden">
+      <div class="section-header">
+        <h2><span class="platform-icon ga4"></span>Google Analytics (GA4)</h2>
+      </div>
+      <div class="platform-grid" id="ga4-grid"></div>
+    </div>
+
+    <div id="section-google-ads" class="section platform-section hidden">
+      <div class="section-header">
+        <h2><span class="platform-icon gads"></span>Google Ads</h2>
+      </div>
+      <div class="platform-grid" id="gads-grid"></div>
+    </div>
+
+    <div id="section-meta" class="section platform-section hidden">
+      <div class="section-header">
+        <h2><span class="platform-icon meta"></span>Meta Ads</h2>
+      </div>
+      <div class="platform-grid" id="meta-grid"></div>
+    </div>
+
+    <div id="section-email" class="section platform-section hidden">
+      <div class="section-header">
+        <h2><span class="platform-icon email"></span>Email Marketing</h2>
+      </div>
+      <div class="platform-grid" id="email-grid"></div>
+    </div>
+
+    <div id="section-hubspot" class="section platform-section hidden">
+      <div class="section-header">
+        <h2><span class="platform-icon hubspot"></span>HubSpot</h2>
+      </div>
+      <div class="platform-grid" id="hubspot-grid"></div>
+    </div>
+
+    <!-- Claude AI Analysis -->
+    <div class="section section-claude">
+      <div class="section-header">
+        <h2>AI Analysis</h2>
+        <span class="section-meta" id="analysis-date"></span>
+      </div>
+      <div id="analysis-content" class="analysis-content">
+        <p class="analysis-placeholder">Click below to generate an AI-powered summary of this client's performance.</p>
+      </div>
+      <button class="btn-generate" id="btn-generate" onclick="generateAnalysis()">
+        <span class="btn-icon">◈</span> Generate Analysis
+      </button>
+    </div>
+  </main>
+
+  <script>
+    const REPO = 'dbd-webadmin/dbd-marketing-dashboard';
+    const BASE = `https://raw.githubusercontent.com/${REPO}/main/data`;
+    const slug = window.location.pathname.split('/').pop().replace('.html', '');
+
+    let clientData = null;
+    let charts = {};
+
+    const COLORS = {
+      blue:   '#3b82f6',
+      green:  '#22c55e',
+      orange: '#f97316',
+      purple: '#a855f7',
+      pink:   '#ec4899',
+      gray:   '#94a3b8',
+    };
+    const CHANNEL_COLORS = [COLORS.blue, COLORS.orange, COLORS.purple, COLORS.green, COLORS.pink];
+
+    async function loadClient() {
+      try {
+        const res = await fetch(`${BASE}/${slug}/latest.json?t=${Date.now()}`);
+        if (!res.ok) throw new Error('No data');
+        clientData = await res.json();
+        render();
+      } catch (e) {
+        document.getElementById('client-name').textContent = slug.toUpperCase();
+        document.getElementById('last-updated').textContent = 'No data yet';
+        document.getElementById('kpi-grid').innerHTML = `
+          <div class="empty-state full-width">
+            <p>No data found for this client. Check that the Google Sheet row is configured and the data sync has run.</p>
+          </div>`;
+      }
+    }
+
+    function render() {
+      const d = clientData;
+      document.title = `${d.name} · DBD Marketing`;
+      document.getElementById('client-name').textContent = d.name;
+      document.getElementById('last-updated').textContent = `Updated ${formatDate(d.updated)}`;
+
+      // KPIs
+      setKPI('spend',       d.summary?.totalSpend,       d.summary?.totalSpendPrev,  true);
+      setKPI('sessions',    d.summary?.sessions,         d.summary?.sessionsPrev,    false);
+      setKPI('conversions', d.summary?.conversions,      d.summary?.conversionsPrev, false);
+      const cpc = d.summary?.totalSpend && d.summary?.conversions
+        ? d.summary.totalSpend / d.summary.conversions : null;
+      const cpcPrev = d.summary?.totalSpendPrev && d.summary?.conversionsPrev
+        ? d.summary.totalSpendPrev / d.summary.conversionsPrev : null;
+      document.getElementById('kpi-cpc').textContent = cpc ? formatCurrency(cpc) : '—';
+      if (cpc && cpcPrev) setDelta('kpi-cpc-delta', cpc, cpcPrev, true);
+
+      // Budget
+      if (d.budget) {
+        const spent = d.summary?.totalSpend || 0;
+        const total = d.budget.monthly || 0;
+        const remaining = Math.max(0, total - spent);
+        const pct = total > 0 ? Math.min(100, Math.round((spent / total) * 100)) : 0;
+        const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+        const dayOfMonth = new Date().getDate();
+        const projected = total > 0 && dayOfMonth > 0 ? (spent / dayOfMonth) * daysInMonth : null;
+
+        document.getElementById('budget-spent').textContent = formatCurrency(spent);
+        document.getElementById('budget-remaining').textContent = formatCurrency(remaining);
+        document.getElementById('budget-total').textContent = total ? formatCurrency(total) : '—';
+        document.getElementById('budget-projected').textContent = projected ? formatCurrency(projected) : '—';
+        document.getElementById('budget-pct-label').textContent = `${pct}%`;
+        document.getElementById('budget-meta').textContent = `${pct}% of monthly budget`;
+        drawGauge(pct);
+      } else {
+        document.getElementById('section-budget').classList.add('hidden');
+      }
+
+      // Charts
+      if (d.timeSeries?.spend)      drawLine('spendChart',      d.timeSeries.spend,       'Spend ($)', COLORS.blue, true);
+      if (d.timeSeries?.sessions)   drawLine('trafficChart',    d.timeSeries.sessions,    'Sessions',  COLORS.green, false);
+      if (d.timeSeries?.conversions) drawLine('conversionChart', d.timeSeries.conversions, 'Conversions', COLORS.purple, false);
+      if (d.channelSpend)           drawDonut('channelChart', d.channelSpend);
+
+      // Platform sections
+      if (d.ga4)      { renderPlatformGrid('ga4-grid', ga4Metrics(d.ga4));      show('section-ga4'); }
+      if (d.googleAds) { renderPlatformGrid('gads-grid', gadsMetrics(d.googleAds)); show('section-google-ads'); }
+      if (d.meta)     { renderPlatformGrid('meta-grid', metaMetrics(d.meta));   show('section-meta'); }
+      if (d.email)    { renderPlatformGrid('email-grid', emailMetrics(d.email)); show('section-email'); }
+      if (d.hubspot)  { renderPlatformGrid('hubspot-grid', hubspotMetrics(d.hubspot)); show('section-hubspot'); }
+
+      // Saved analysis
+      if (d.analysis) {
+        document.getElementById('analysis-content').innerHTML = `<div class="analysis-text">${d.analysis.text}</div>`;
+        document.getElementById('analysis-date').textContent = `Generated ${formatDate(d.analysis.generatedAt)}`;
+      }
+    }
+
+    function ga4Metrics(ga4) {
+      return [
+        { label: 'Sessions',        value: formatNumber(ga4.sessions) },
+        { label: 'Users',           value: formatNumber(ga4.users) },
+        { label: 'Page Views',      value: formatNumber(ga4.pageViews) },
+        { label: 'Avg Session Dur', value: ga4.avgSessionDuration ? `${Math.round(ga4.avgSessionDuration)}s` : '—' },
+        { label: 'Bounce Rate',     value: ga4.bounceRate ? `${(ga4.bounceRate * 100).toFixed(1)}%` : '—' },
+        { label: 'New Users',       value: ga4.newUsers ? formatNumber(ga4.newUsers) : '—' },
+      ];
+    }
+    function gadsMetrics(ads) {
+      return [
+        { label: 'Spend',           value: formatCurrency(ads.spend) },
+        { label: 'Impressions',     value: formatNumber(ads.impressions) },
+        { label: 'Clicks',          value: formatNumber(ads.clicks) },
+        { label: 'CTR',             value: ads.ctr ? `${(ads.ctr * 100).toFixed(2)}%` : '—' },
+        { label: 'Avg CPC',         value: ads.avgCpc ? formatCurrency(ads.avgCpc) : '—' },
+        { label: 'Conversions',     value: ads.conversions ? formatNumber(ads.conversions) : '—' },
+      ];
+    }
+    function metaMetrics(meta) {
+      return [
+        { label: 'Spend',           value: formatCurrency(meta.spend) },
+        { label: 'Reach',           value: formatNumber(meta.reach) },
+        { label: 'Impressions',     value: formatNumber(meta.impressions) },
+        { label: 'Clicks',          value: formatNumber(meta.clicks) },
+        { label: 'CTR',             value: meta.ctr ? `${(meta.ctr * 100).toFixed(2)}%` : '—' },
+        { label: 'CPM',             value: meta.cpm ? formatCurrency(meta.cpm) : '—' },
+      ];
+    }
+    function emailMetrics(email) {
+      return [
+        { label: 'Campaigns Sent',  value: formatNumber(email.campaignsSent) },
+        { label: 'Emails Sent',     value: formatNumber(email.emailsSent) },
+        { label: 'Open Rate',       value: email.openRate ? `${(email.openRate * 100).toFixed(1)}%` : '—' },
+        { label: 'Click Rate',      value: email.clickRate ? `${(email.clickRate * 100).toFixed(1)}%` : '—' },
+        { label: 'Unsubscribes',    value: email.unsubscribes ? formatNumber(email.unsubscribes) : '—' },
+        { label: 'List Growth',     value: email.listGrowth ? `+${formatNumber(email.listGrowth)}` : '—' },
+      ];
+    }
+    function hubspotMetrics(hs) {
+      return [
+        { label: 'New Contacts',    value: formatNumber(hs.newContacts) },
+        { label: 'Open Deals',      value: formatNumber(hs.openDeals) },
+        { label: 'Deal Value',      value: hs.openDealValue ? formatCurrency(hs.openDealValue) : '—' },
+        { label: 'Form Submissions', value: hs.formSubmissions ? formatNumber(hs.formSubmissions) : '—' },
+      ];
+    }
+
+    function renderPlatformGrid(id, metrics) {
+      document.getElementById(id).innerHTML = metrics.map(m => `
+        <div class="platform-metric">
+          <span class="platform-metric-label">${m.label}</span>
+          <span class="platform-metric-value">${m.value ?? '—'}</span>
+        </div>`).join('');
+    }
+
+    function drawLine(id, series, label, color, isCurrency) {
+      const ctx = document.getElementById(id).getContext('2d');
+      if (charts[id]) charts[id].destroy();
+      charts[id] = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: series.map(p => p.date),
+          datasets: [{
+            label,
+            data: series.map(p => p.value),
+            borderColor: color,
+            backgroundColor: color + '18',
+            borderWidth: 2,
+            pointRadius: 3,
+            tension: 0.3,
+            fill: true,
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              grid: { color: '#1e293b' },
+              ticks: {
+                color: '#94a3b8',
+                callback: v => isCurrency ? '$' + v.toLocaleString() : v.toLocaleString()
+              }
+            },
+            x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', maxTicksLimit: 8 } }
+          }
+        }
+      });
+    }
+
+    function drawDonut(id, channelSpend) {
+      const ctx = document.getElementById(id).getContext('2d');
+      if (charts[id]) charts[id].destroy();
+      const labels = Object.keys(channelSpend);
+      const values = Object.values(channelSpend);
+      charts[id] = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels,
+          datasets: [{ data: values, backgroundColor: CHANNEL_COLORS, borderWidth: 0 }]
+        },
+        options: {
+          responsive: true,
+          cutout: '65%',
+          plugins: {
+            legend: { position: 'right', labels: { color: '#94a3b8', padding: 16 } },
+            tooltip: { callbacks: { label: ctx => ` $${ctx.raw.toLocaleString()}` } }
+          }
+        }
+      });
+    }
+
+    function drawGauge(pct) {
+      const ctx = document.getElementById('budgetGauge').getContext('2d');
+      if (charts.gauge) charts.gauge.destroy();
+      const color = pct >= 90 ? '#ef4444' : pct >= 75 ? '#f97316' : '#22c55e';
+      charts.gauge = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [pct, 100 - pct],
+            backgroundColor: [color, '#1e293b'],
+            borderWidth: 0,
+          }]
+        },
+        options: {
+          circumference: 180,
+          rotation: -90,
+          cutout: '75%',
+          plugins: { legend: { display: false }, tooltip: { enabled: false } }
+        }
+      });
+    }
+
+    function setKPI(id, val, prev, isCurrency) {
+      const el = document.getElementById(`kpi-${id}`);
+      el.textContent = val ? (isCurrency ? formatCurrency(val) : formatNumber(val)) : '—';
+      if (val && prev) setDelta(`kpi-${id}-delta`, val, prev, isCurrency && id === 'spend');
+    }
+
+    function setDelta(id, curr, prev, invertGood) {
+      const el = document.getElementById(id);
+      if (!el || !prev) return;
+      const pct = ((curr - prev) / prev) * 100;
+      const up = pct >= 0;
+      const good = invertGood ? !up : up;
+      el.textContent = `${up ? '▲' : '▼'} ${Math.abs(pct).toFixed(1)}% vs last period`;
+      el.className = `kpi-delta ${good ? 'positive' : 'negative'}`;
+    }
+
+    async function generateAnalysis() {
+      const btn = document.getElementById('btn-generate');
+      const content = document.getElementById('analysis-content');
+      btn.disabled = true;
+      btn.textContent = 'Generating…';
+      content.innerHTML = '<div class="analysis-loading"><div class="spinner"></div><p>Analyzing performance data…</p></div>';
+      try {
+        const res = await fetch('/.netlify/functions/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug, data: clientData })
+        });
+        if (!res.ok) throw new Error();
+        const { text } = await res.json();
+        content.innerHTML = `<div class="analysis-text">${text}</div>`;
+        document.getElementById('analysis-date').textContent = `Generated just now`;
+      } catch {
+        content.innerHTML = '<p class="error-text">Analysis unavailable. The AI endpoint has not been configured yet.</p>';
+      }
+      btn.disabled = false;
+      btn.innerHTML = '<span class="btn-icon">◈</span> Regenerate Analysis';
+    }
+
+    function show(id) { document.getElementById(id).classList.remove('hidden'); }
+    function formatCurrency(n) {
+      return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+    function formatNumber(n) { return Number(n).toLocaleString('en-US'); }
+    function formatDate(str) {
+      if (!str) return '—';
+      return new Date(str).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    }
+
+    loadClient();
+  </script>
+</body>
+</html>
