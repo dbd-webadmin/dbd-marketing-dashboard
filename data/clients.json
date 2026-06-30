@@ -1,10 +1,24 @@
 {
-  "updated": "2026-06-30T18:08:19.795Z",
+  "updated": "2026-06-30T18:20:20.474Z",
   "clients": [
+    {
+      "name": "Destination by Design",
+      "slug": "dbd",
+      "active": true,
+      "ga4PropertyId": "312739761",
+      "googleAdsId": null,
+      "metaAdAccountId": null,
+      "mailchimpListId": null,
+      "hubspotPortalId": null,
+      "monthlyBudget": 0,
+      "clientType": "Internal",
+      "notes": "Test client — DBD own accounts",
+      "summary": null
+    },
     {
       "name": "JEDCO",
       "slug": "jedco",
-      "active": true,
+      "active": false,
       "ga4PropertyId": null,
       "googleAdsId": null,
       "metaAdAccountId": null,
@@ -12,7 +26,7 @@
       "hubspotPortalId": null,
       "monthlyBudget": 0,
       "clientType": "Economic Development",
-      "notes": "Add account IDs as they become available",
+      "notes": "Add account IDs when ready",
       "summary": null
     }
   ]
