@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-30T12:00:00.000Z",
+  "updated": "2026-06-30T18:08:19.795Z",
   "clients": [
     {
       "name": "JEDCO",
@@ -12,7 +12,7 @@
       "hubspotPortalId": null,
       "monthlyBudget": 0,
       "clientType": "Economic Development",
-      "notes": "Add account IDs to Google Sheet to enable data sync.",
+      "notes": "Add account IDs as they become available",
       "summary": null
     }
   ]
