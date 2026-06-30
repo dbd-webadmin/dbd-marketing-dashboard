@@ -13,7 +13,14 @@
       "monthlyBudget": 0,
       "clientType": "Internal",
       "notes": "Test client — DBD own accounts",
-      "summary": null
+      "summary": {
+        "sessions": 3536,
+        "sessionsPrev": 2549,
+        "conversions": 0,
+        "conversionsPrev": 0,
+        "topChannel": "Organic Search",
+        "lastUpdated": "2026-06-30T19:11:00.137Z"
+      }
     },
     {
       "name": "JEDCO",
