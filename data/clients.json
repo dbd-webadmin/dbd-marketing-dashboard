@@ -14,12 +14,12 @@
       "clientType": "Internal",
       "notes": "Test client — DBD own accounts",
       "summary": {
-        "sessions": 576,
-        "sessionsPrev": 438,
+        "sessions": 634,
+        "sessionsPrev": 528,
         "conversions": 0,
         "conversionsPrev": 0,
         "topChannel": "Direct",
-        "lastUpdated": "2026-07-06T17:58:30.784Z"
+        "lastUpdated": "2026-07-07T17:25:46.155Z"
       }
     },
     {
