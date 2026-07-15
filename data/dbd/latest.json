@@ -1,31 +1,27 @@
 {
   "name": "Destination by Design",
   "slug": "dbd",
-  "updated": "2026-07-14T12:55:31.051Z",
+  "updated": "2026-07-15T13:00:29.551Z",
   "budget": null,
   "summary": {
-    "sessions": 1281,
-    "sessionsPrev": 1113,
+    "sessions": 1369,
+    "sessionsPrev": 1247,
     "conversions": 0,
     "conversionsPrev": 0,
     "topChannel": "Organic Search",
-    "lastUpdated": "2026-07-14T12:55:31.051Z"
+    "lastUpdated": "2026-07-15T13:00:29.551Z"
   },
   "ga4": {
-    "sessions": 1281,
-    "users": 939,
-    "pageViews": 2119,
-    "bounceRate": 0.5472287275565965,
-    "avgSessionDuration": 186.02214850663543,
-    "newUsers": 853,
+    "sessions": 1369,
+    "users": 1007,
+    "pageViews": 2249,
+    "bounceRate": 0.5471146822498174,
+    "avgSessionDuration": 181.45064272899927,
+    "newUsers": 918,
     "conversions": 0
   },
   "timeSeries": {
     "sessions": [
-      {
-        "date": "2026-06-14",
-        "value": 48
-      },
       {
         "date": "2026-06-15",
         "value": 87
@@ -140,14 +136,18 @@
       },
       {
         "date": "2026-07-13",
-        "value": 84
+        "value": 121
+      },
+      {
+        "date": "2026-07-14",
+        "value": 88
+      },
+      {
+        "date": "2026-07-15",
+        "value": 10
       }
     ],
     "conversions": [
-      {
-        "date": "2026-06-14",
-        "value": 0
-      },
       {
         "date": "2026-06-15",
         "value": 0
@@ -263,15 +263,23 @@
       {
         "date": "2026-07-13",
         "value": 0
+      },
+      {
+        "date": "2026-07-14",
+        "value": 0
+      },
+      {
+        "date": "2026-07-15",
+        "value": 0
       }
     ],
     "channelSessions": {
-      "Organic Search": 559,
-      "Direct": 491,
-      "Referral": 20,
-      "Email": 16,
-      "Organic Social": 14,
-      "AI Assistant": 11,
+      "Organic Search": 645,
+      "Direct": 526,
+      "Referral": 29,
+      "Email": 20,
+      "Organic Social": 15,
+      "AI Assistant": 12,
       "Unassigned": 2
     }
   },
