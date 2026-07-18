@@ -1,31 +1,27 @@
 {
   "name": "Destination by Design",
   "slug": "dbd",
-  "updated": "2026-07-17T12:48:49.941Z",
+  "updated": "2026-07-18T12:02:44.592Z",
   "budget": null,
   "summary": {
-    "sessions": 2051,
-    "sessionsPrev": 1557,
+    "sessions": 2128,
+    "sessionsPrev": 1736,
     "conversions": 0,
     "conversionsPrev": 0,
     "topChannel": "Organic Search",
-    "lastUpdated": "2026-07-17T12:48:49.941Z"
+    "lastUpdated": "2026-07-18T12:02:44.592Z"
   },
   "ga4": {
-    "sessions": 2051,
-    "users": 1605,
-    "pageViews": 3636,
-    "bounceRate": 0.5416869819600195,
-    "avgSessionDuration": 151.55239429790345,
-    "newUsers": 1558,
+    "sessions": 2128,
+    "users": 1650,
+    "pageViews": 3755,
+    "bounceRate": 0.5399436090225563,
+    "avgSessionDuration": 202.9425667518797,
+    "newUsers": 1603,
     "conversions": 0
   },
   "timeSeries": {
     "sessions": [
-      {
-        "date": "2026-06-17",
-        "value": 109
-      },
       {
         "date": "2026-06-18",
         "value": 77
@@ -140,18 +136,18 @@
       },
       {
         "date": "2026-07-16",
-        "value": 150
+        "value": 148
       },
       {
         "date": "2026-07-17",
-        "value": 2
+        "value": 177
+      },
+      {
+        "date": "2026-07-18",
+        "value": 7
       }
     ],
     "conversions": [
-      {
-        "date": "2026-06-17",
-        "value": 0
-      },
       {
         "date": "2026-06-18",
         "value": 0
@@ -271,17 +267,20 @@
       {
         "date": "2026-07-17",
         "value": 0
+      },
+      {
+        "date": "2026-07-18",
+        "value": 0
       }
     ],
     "channelSessions": {
-      "Organic Search": 855,
-      "Direct": 609,
-      "Referral": 33,
-      "Email": 24,
-      "Organic Social": 17,
+      "Organic Search": 976,
+      "Direct": 662,
+      "Referral": 34,
+      "Email": 26,
+      "Organic Social": 22,
       "AI Assistant": 14,
-      "Unassigned": 12,
-      "Cross-network": 1
+      "Unassigned": 6
     }
   },
   "channelSpend": null
