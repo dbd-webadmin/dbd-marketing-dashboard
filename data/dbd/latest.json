@@ -1,31 +1,27 @@
 {
   "name": "Destination by Design",
   "slug": "dbd",
-  "updated": "2026-08-05T11:13:31.611Z",
+  "updated": "2026-08-06T11:13:12.885Z",
   "budget": null,
   "summary": {
-    "sessions": 466,
-    "sessionsPrev": 287,
+    "sessions": 566,
+    "sessionsPrev": 515,
     "conversions": 0,
     "conversionsPrev": 0,
     "topChannel": "Direct",
-    "lastUpdated": "2026-08-05T11:13:31.611Z"
+    "lastUpdated": "2026-08-06T11:13:12.885Z"
   },
   "ga4": {
-    "sessions": 466,
-    "users": 413,
-    "pageViews": 709,
-    "bounceRate": 0.463519313304721,
-    "avgSessionDuration": 107.73294527896996,
-    "newUsers": 375,
+    "sessions": 566,
+    "users": 491,
+    "pageViews": 897,
+    "bounceRate": 0.46996466431095407,
+    "avgSessionDuration": 110.57537756007068,
+    "newUsers": 447,
     "conversions": 0
   },
   "timeSeries": {
     "sessions": [
-      {
-        "date": "2026-07-06",
-        "value": 227
-      },
       {
         "date": "2026-07-07",
         "value": 79
@@ -140,14 +136,18 @@
       },
       {
         "date": "2026-08-04",
-        "value": 252
+        "value": 253
+      },
+      {
+        "date": "2026-08-05",
+        "value": 97
+      },
+      {
+        "date": "2026-08-06",
+        "value": 2
       }
     ],
     "conversions": [
-      {
-        "date": "2026-07-06",
-        "value": 0
-      },
       {
         "date": "2026-07-07",
         "value": 0
@@ -263,16 +263,24 @@
       {
         "date": "2026-08-04",
         "value": 0
+      },
+      {
+        "date": "2026-08-05",
+        "value": 0
+      },
+      {
+        "date": "2026-08-06",
+        "value": 0
       }
     ],
     "channelSessions": {
-      "Direct": 256,
-      "Organic Search": 195,
-      "AI Assistant": 6,
-      "Referral": 5,
+      "Direct": 294,
+      "Organic Search": 246,
+      "Referral": 9,
+      "AI Assistant": 8,
+      "Email": 4,
       "Organic Social": 3,
-      "Email": 2,
-      "Unassigned": 1
+      "Cross-network": 2
     }
   },
   "channelSpend": null
