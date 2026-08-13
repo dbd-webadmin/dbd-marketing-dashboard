@@ -1,31 +1,27 @@
 {
   "name": "Destination by Design",
   "slug": "dbd",
-  "updated": "2026-08-12T09:54:38.101Z",
+  "updated": "2026-08-13T09:55:28.670Z",
   "budget": null,
   "summary": {
-    "sessions": 1315,
-    "sessionsPrev": 1029,
+    "sessions": 1438,
+    "sessionsPrev": 1150,
     "conversions": 0,
     "conversionsPrev": 0,
     "topChannel": "Organic Search",
-    "lastUpdated": "2026-08-12T09:54:38.102Z"
+    "lastUpdated": "2026-08-13T09:55:28.670Z"
   },
   "ga4": {
-    "sessions": 1315,
-    "users": 1067,
-    "pageViews": 2160,
-    "bounceRate": 0.5163498098859316,
-    "avgSessionDuration": 176.63877179923952,
-    "newUsers": 988,
+    "sessions": 1438,
+    "users": 1152,
+    "pageViews": 2390,
+    "bounceRate": 0.5159944367176634,
+    "avgSessionDuration": 176.4710776342142,
+    "newUsers": 1068,
     "conversions": 0
   },
   "timeSeries": {
     "sessions": [
-      {
-        "date": "2026-07-13",
-        "value": 121
-      },
       {
         "date": "2026-07-14",
         "value": 116
@@ -140,14 +136,18 @@
       },
       {
         "date": "2026-08-11",
-        "value": 190
+        "value": 193
+      },
+      {
+        "date": "2026-08-12",
+        "value": 121
+      },
+      {
+        "date": "2026-08-13",
+        "value": 1
       }
     ],
     "conversions": [
-      {
-        "date": "2026-07-13",
-        "value": 0
-      },
       {
         "date": "2026-07-14",
         "value": 0
@@ -263,16 +263,25 @@
       {
         "date": "2026-08-11",
         "value": 0
+      },
+      {
+        "date": "2026-08-12",
+        "value": 0
+      },
+      {
+        "date": "2026-08-13",
+        "value": 0
       }
     ],
     "channelSessions": {
-      "Organic Search": 631,
-      "Direct": 618,
-      "Referral": 33,
+      "Organic Search": 701,
+      "Direct": 666,
+      "Referral": 34,
       "Email": 18,
-      "Organic Social": 11,
+      "Organic Social": 14,
       "AI Assistant": 8,
-      "Unassigned": 1
+      "Unassigned": 2,
+      "Cross-network": 1
     }
   },
   "channelSpend": null
