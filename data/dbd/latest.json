@@ -1,31 +1,27 @@
 {
   "name": "Destination by Design",
   "slug": "dbd",
-  "updated": "2026-08-20T09:25:31.261Z",
+  "updated": "2026-08-21T09:28:16.808Z",
   "budget": null,
   "summary": {
-    "sessions": 2550,
-    "sessionsPrev": 2219,
+    "sessions": 2679,
+    "sessionsPrev": 2374,
     "conversions": 0,
     "conversionsPrev": 0,
     "topChannel": "Organic Search",
-    "lastUpdated": "2026-08-20T09:25:31.261Z"
+    "lastUpdated": "2026-08-21T09:28:16.808Z"
   },
   "ga4": {
-    "sessions": 2550,
-    "users": 2031,
-    "pageViews": 4159,
-    "bounceRate": 0.5164705882352941,
-    "avgSessionDuration": 168.48793154862744,
-    "newUsers": 1916,
+    "sessions": 2679,
+    "users": 2128,
+    "pageViews": 4385,
+    "bounceRate": 0.5162374020156775,
+    "avgSessionDuration": 167.96542146024638,
+    "newUsers": 2013,
     "conversions": 0
   },
   "timeSeries": {
     "sessions": [
-      {
-        "date": "2026-07-21",
-        "value": 153
-      },
       {
         "date": "2026-07-22",
         "value": 139
@@ -144,14 +140,14 @@
       },
       {
         "date": "2026-08-20",
-        "value": 6
+        "value": 127
+      },
+      {
+        "date": "2026-08-21",
+        "value": 4
       }
     ],
     "conversions": [
-      {
-        "date": "2026-07-21",
-        "value": 0
-      },
       {
         "date": "2026-07-22",
         "value": 0
@@ -271,15 +267,19 @@
       {
         "date": "2026-08-20",
         "value": 0
+      },
+      {
+        "date": "2026-08-21",
+        "value": 0
       }
     ],
     "channelSessions": {
-      "Organic Search": 1117,
-      "Direct": 961,
-      "Organic Social": 257,
-      "Email": 153,
+      "Organic Search": 1175,
+      "Direct": 1015,
+      "Organic Social": 261,
+      "Email": 158,
       "Referral": 54,
-      "AI Assistant": 14
+      "AI Assistant": 16
     }
   },
   "channelSpend": null
